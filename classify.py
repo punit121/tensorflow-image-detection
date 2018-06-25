@@ -1,6 +1,9 @@
 import tensorflow as tf
 import sys
 import os
+import json
+import numpy as np
+
 #import tkinter as tk
 #from tkinter import filedialog
 
@@ -14,6 +17,19 @@ image_path = sys.argv[1]
 #root.withdraw()
 
 #mage_path = filedialog.askopenfilename()
+class MyEncoder(json.JSONEncoder):
+    def default(self,obj):
+        if isinstance(obj, np.integer):
+            return int(obj)
+        elif isinstance(obj, np.floating):
+            return float(obj)
+        elif isinstance(obj, np.ndarray):
+            return obj.tolist()
+        else:
+            return super(MyEncoder, self).default(obj)
+
+        return json.dumps(data, cls=MyEncoder)
+
 
 if image_path:
     
@@ -38,9 +54,18 @@ if image_path:
                  {'DecodeJpeg/contents:0': image_data})
         
         # Sort to show labels of first prediction in order of confidence
+        my_dict = {}
         top_k = predictions[0].argsort()[-len(predictions[0]):][::-1]
         
         for node_id in top_k:
             human_string = label_lines[node_id]
             score = predictions[0][node_id]
-            print('%s (score = %.5f)' % (human_string, score))
+          #print('%s (score = %.5f)' % (human_string, score))
+            human_string = human_string.replace(',', '')
+            #human_string = human_string.replace(' ', '_')
+            my_dict[human_string] = score
+            #print('%s (score = %.5f)' % (human_string, score))
+
+        result= json.dumps(my_dict, cls=MyEncoder)
+        #json_data = json.loads(result)
+        print(json.loads(result))    
