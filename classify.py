@@ -1,19 +1,19 @@
 import tensorflow as tf
 import sys
 import os
-import tkinter as tk
-from tkinter import filedialog
+#import tkinter as tk
+#from tkinter import filedialog
 
 # Disable tensorflow compilation warnings
 os.environ['TF_CPP_MIN_LOG_LEVEL']='2'
 import tensorflow as tf
 
-# image_path = sys.argv[1]
+image_path = sys.argv[1]
 
-root = tk.Tk()
-root.withdraw()
+#root = tk.Tk()
+#root.withdraw()
 
-image_path = filedialog.askopenfilename()
+#mage_path = filedialog.askopenfilename()
 
 if image_path:
     
