@@ -8,7 +8,7 @@ inception
 tf_files
 input
 result.xlsx
-
+.DS_Store
 # C extensions
 *.so
 
